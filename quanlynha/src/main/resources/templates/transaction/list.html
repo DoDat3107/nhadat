@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin giao dịch</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Thông tin giao dịch</h1>
+
+    <!-- Thêm mới giao dịch -->
+    <div>
+        <a th:href="@{/transaction/add}" class="btn btn-primary mb-3">Thêm mới</a>
+    </div>
+
+    <!-- Tìm kiếm giao dịch -->
+    <div>
+        <form th:action="@{/transaction/list}" method="get">
+            <input type="hidden" name="action" value="transaction">
+            <div class="input-group mb-3">
+                <input type="text" name="customerName" placeholder="Nhập tên khách hàng" th:value="${customerName}" class="form-control" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    <div th:if="${not #strings.isEmpty(errorMessage)}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Danh sách giao dịch -->
+    <div class="info-product mt-4">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã giao dịch</th>
+                <th>Tên khách hàng</th>
+                <th>Loại dịch vụ</th>
+                <th>Ngày giao dịch</th>
+                <th>Đơn giá (VND/m2)</th>
+                <th>Diện tích (m2)</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Lặp qua danh sách giao dịch -->
+            <th:block th:each="item, iterStat : ${transactions}">
+                <tr>
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${item.transactionCode}"></td>
+                    <td th:text="${item.customer.name}"></td>
+                    <td th:text="${item.serviceType}"></td>
+                    <td th:text="${item.transactionDate}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.price.stripTrailingZeros().toPlainString(), 0, 0) + ' VNĐ'}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.area.stripTrailingZeros().toPlainString(), 0, 0)}"></td>
+                    <td>
+                        <a th:href="@{/transaction/view(id=${item.id})}" class="btn btn-info btn-sm">
+                            Thông tin
+                        </a>
+                        <a th:href="@{/transaction/delete(id=${item.id})}"
+                           th:onclick="'return confirm(\'Bạn có chắc chắn muốn xóa giao dịch này không?\')'"
+                           class="btn btn-danger btn-sm">
+                            Xóa
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
