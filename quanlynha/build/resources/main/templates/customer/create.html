@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Customer</title>
+</head>
+<body>
+<h1>Create New Customer</h1>
+<form action="/customer/create" method="post">
+  <label for="nameCustomer">Name: </label>
+  <input type="text" id="nameCustomer" name="nameCustomer" required>
+  <label for="phone">Phone: </label>
+  <input type="text" id="phone" name="phone" required>
+  <label for="email">email: </label>
+  <input type="text" id="email" name="email" required>
+  <button type="submit">Create</button>
+</form>
+<a href="/customer/list">Back to List</a>
+</body>
+</html>

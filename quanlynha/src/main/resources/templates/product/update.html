@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật Sản phẩm</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Cập nhật Sản phẩm</h1>
+    <form th:action="@{/product/edit/{id}(id=${product.idProduct})}" method="post">
+        <div class="form-group">
+            <label for="nameCustomer">Tên khách hàng</label>
+            <input type="text" class="form-control" id="nameCustomer" name="nameCustomer"
+                   th:value="${product.nameCustomer}" placeholder="Nhập tên khách hàng" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dateTime">Ngày tạo</label>
+            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
+                   th:value="${#dates.format(product.dateTime, 'yyyy-MM-dd\'T\'HH:mm')}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Vai trò</label>
+            <input type="text" class="form-control" id="role" name="role"
+                   th:value="${product.role}" placeholder="Nhập vai trò" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Giá</label>
+            <input type="number" step="0.01" class="form-control" id="price" name="price"
+                   th:value="${product.price}" placeholder="Nhập giá sản phẩm" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dientich">Diện tích</label>
+            <input type="number" class="form-control" id="dientich" name="dientich"
+                   th:value="${product.dientich}" placeholder="Nhập diện tích" required>
+        </div>
+
+        <div class="form-group">
+            <label for="idCustomer">Khách hàng</label>
+            <select class="form-control" id="idCustomer" name="idCustomer" required>
+                <option th:each="customer : ${customer}"
+                        th:value="${customer.idCustomer}"
+                        th:text="${customer.nameCustomer}"
+                        th:selected="${customer.idCustomer == product.idCustomer}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a href="/product" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+</body>
+</html>
